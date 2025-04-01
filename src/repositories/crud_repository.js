@@ -6,13 +6,9 @@ class CrudRepository {
     }
 
     async create(data) {
-        try {
+    
             const response = await this.model.create(data);
             return response;
-        } catch (error) {
-            logger.error('Something went wrong in CRUD Repo: Create');
-            throw error;
-        }
     }
 
     async destroy(id) {
@@ -29,7 +25,7 @@ class CrudRepository {
 
     async get(id) {
         try {
-            const response = await this.model.findByPk(id); // Fixed method name
+            const response = await this.model.findByPk(id); 
             return response;
         } catch (error) {
             logger.error('Something went wrong in CRUD Repo: Get');
