@@ -1,39 +1,38 @@
-const { statusCodes, StatusCodes } = require('http-status-codes');
-
+const { StatusCodes } = require('http-status-codes');
 const { AirplaneService } = require('../services');
 
-
 /* 
-  Post : /airplanes
+  POST : /airplanes
   req-body {modelNumber: 'airbus320', capacity: 200}
 */
 
-async function createAirplane(req,res){
+async function createAirplane(req, res) {
     try {
         const airplane = await AirplaneService.createAirplane({
-            modelNumber: req.body.model,
+            modelNumber: req.body.modelNumber,  // Fixed: Use 'modelNumber' instead of 'model'
             capacity: req.body.capacity
-        })
+        });
+
         return res
-                 .status(StatusCodes.CREATED)
-                 .json({
-                    success: true,
-                    message: 'Successfully create an airplane',
-                    data: response,
-                    error: {}
-                 })
+            .status(StatusCodes.CREATED)
+            .json({
+                success: true,
+                message: 'Successfully created an airplane',
+                data: airplane,  // Fixed: Use the correct variable 'airplane'
+                error: {}
+            });
     } catch (error) {
         return res
-                .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                .json({
-                    success: false,
-                    message: 'Something went wrong while creating airplane',
-                    data: {},
-                    error: error
-                })
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({
+                success: false,
+                message: 'Something went wrong while creating airplane',
+                data: {},
+                error: error.message  // Send only the error message for security reasons
+            });
     }
 }
 
 module.exports = {
     createAirplane
-}
+};
