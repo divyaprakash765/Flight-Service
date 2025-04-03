@@ -10,7 +10,6 @@ async function createAirplane(data){
         const airplane = await airplaneRepository.create(data);
         return airplane; 
     } catch (error) {
-        console.log("Caught Error:", error); // Debugging
         if (error.name === "SequelizeValidationError") {
             let explanation = error.errors.map((err) => err.message);
             console.log("Validation Errors:", explanation);
