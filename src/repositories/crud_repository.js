@@ -7,52 +7,32 @@ class CrudRepository {
 
     async create(data) {
     
-            const response = await this.model.create(data);
-            return response;
+         const response = await this.model.create(data);
+         return response;
     }
 
     async destroy(id) {
-        try {
-            const response = await this.model.destroy({
-                where: { id }
-            });
-            return response;
-        } catch (error) {
-            logger.error('Something went wrong in CRUD Repo: Destroy');
-            throw error;
-        }
+         const response = await this.model.destroy({
+             where: { id }
+         });
+         return response;
     }
 
     async get(id) {
-        try {
-            const response = await this.model.findByPk(id); 
-            return response;
-        } catch (error) {
-            logger.error('Something went wrong in CRUD Repo: Get');
-            throw error;
-        }
+         const response = await this.model.findByPk(id); 
+         return response;
     }
 
     async getAll() {
-        try {
-            const response = await this.model.findAll();
-            return response;
-        } catch (error) {
-            logger.error('Something went wrong in CRUD Repo: GetAll');
-            throw error;
-        }
+        const response = await this.model.findAll();
+        return response;
     }
 
     async update(id, data) {  // data -> {col: value, ...}
-        try {
-            const [updatedRows] = await this.model.update(data, { // Fixed method name
-                where: { id }
+        const [updatedRows] = await this.model.update(data, { // Fixed method name
+            where: { id }
             });
-            return updatedRows;
-        } catch (error) {
-            logger.error('Something went wrong in CRUD Repo: Update');
-            throw error;
-        }
+        return updatedRows;
     }
 }
 
