@@ -39,7 +39,26 @@ async function getAirplanes(req,res){
     }
 }
 
+/* 
+  POST : /airplanes/:id
+  req-body {}
+*/
+
+async function getAirplane(req,res){
+    try {
+        const airplanes = await AirplaneService.getAirplane(req.params.id);
+        SuccessResponse.data = airplanes;
+        return res.status(StatusCodes.OK).json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error.message || 'Something went wrong';
+        return res
+            .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
+            .json(ErrorResponse);
+    }
+}
+
 module.exports = {
     createAirplane,
-    getAirplanes
+    getAirplanes,
+    getAirplane
 };
