@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { cityController } = require('../../controllers');
-const { AirplaneMiddlewares } = require('../../middlewares');
+const { cityMiddlewares } = require('../../middlewares');
 
 const router = express.Router();
 
@@ -9,6 +9,7 @@ const router = express.Router();
 router
     .post(
          '/',
+         cityMiddlewares.validateCreateRequest,
         cityController.createCity);
 
 
