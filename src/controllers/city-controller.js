@@ -1,12 +1,13 @@
 const { StatusCodes } = require('http-status-codes');
+
 const { CityService } = require('../services');
 const { SuccessResponse, ErrorResponse } = require('../utils/common');
 
-/* 
-  POST : /cities
-  req-body {modelNumber: 'London', capacity: 200}
-*/
 
+/**
+ * POST : /cities 
+ * req-body {name: 'London'}
+ */
 async function createCity(req, res) {
     try {
         const city = await CityService.createCity({
@@ -14,14 +15,13 @@ async function createCity(req, res) {
         });
         SuccessResponse.data = city;
         return res
-            .status(StatusCodes.CREATED)
-            .json(SuccessResponse);
-    } catch (error) {
-        ErrorResponse.error = error.message || 'Something went wrong';
-        // Ensure that the status code is set correctly, either from error or default to 500
+                .status(StatusCodes.CREATED)
+                .json(SuccessResponse);
+    } catch(error) {
+        ErrorResponse.error = error;
         return res
-            .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
-            .json(ErrorResponse);
+                .status(error.statusCode)
+                .json(ErrorResponse);
     }
 }
 
