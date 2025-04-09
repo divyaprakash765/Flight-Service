@@ -48,8 +48,6 @@ async function createFlight(data){
         }
      }
 
-     
-
      if(query.tripDate){
         const startOfDay = query.tripDate + " 00:00:00";
     const endOfDay = query.tripDate + " 23:59:59";
