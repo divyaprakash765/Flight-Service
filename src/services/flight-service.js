@@ -1,6 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const { FlightRepository } = require('../repositories');
 const { Op } = require('sequelize');
+const compareTime = require('../utils/helpers/datetime-helper')
 const AppError = require('../utils/errors/app-error');
 
 
@@ -8,6 +9,9 @@ const flightRepository = new FlightRepository();
 
 async function createFlight(data){
     try{
+        if (!compareTime(data.arrivalTime, data.departureTime)) {
+            throw new AppError("Arrival time must be greater than departure time", StatusCodes.BAD_REQUEST);
+        }
         const flight = await flightRepository.create(data);
         return flight; 
     } catch (error) {
@@ -44,6 +48,8 @@ async function createFlight(data){
         }
      }
 
+     
+
      if(query.tripDate){
         const startOfDay = query.tripDate + " 00:00:00";
     const endOfDay = query.tripDate + " 23:59:59";
@@ -57,10 +63,9 @@ async function createFlight(data){
         const sortFilters = params.map((param)=> param.split('_'));
         sortFilter = sortFilters;
     }
-
      }
 
-
+    
      try {
         const flights = await flightRepository.getAllFlights(customFilter,sortFilter);
         return flights;
